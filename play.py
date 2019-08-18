@@ -1,4 +1,3 @@
-from playsound import playsound
 import pyttsx3
 import time
 import random
