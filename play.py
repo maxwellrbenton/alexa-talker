@@ -4,58 +4,49 @@ import time
 import random
 
 engine = pyttsx3.init()
-# playsound('calls/call_1.m4a')
 
-commonWordList = [line.rstrip('\n') for line in open('phrase-content/most-common-words.txt')]
+# commonWordList = [line.rstrip('\n') for line in open('phrase-content/most-common-words.txt')]
 placeList = [line.rstrip('\n') for line in open('phrase-content/places.txt')]
 animalList = [line.rstrip('\n') for line in open('phrase-content/animals.txt')]
 
-def appendAlexa():
-  return "Alexa, "
-
-def speechToText(text):
+def speech_to_text(text):
   engine.say(text)
   engine.runAndWait()
 
-def askAnimalAndLocation():
+def ask_animal_and_location():
   animal = animalList[random.randint(1,len(animalList))]
   place = placeList[random.randint(1,len(placeList))]
-  query = appendAlexa() + "How many " + animal + "s are there in " + place + "?"
+  query = "Alexa, how many " + animal + "s are there in " + place + "?"
   speechToText(query)
 
-def askAboutThing():
+def ask_about_thing():
   flip = random.random()
   if flip < 0.5:
     thing = animalList[random.randint(1,len(animalList))]
   else:
     thing = placeList[random.randint(1,len(placeList))]
-  query = appendAlexa() + "Tell me about " + thing
+  query = "Alexa, tell me about " + thing
   speechToText(query)
 
-def lowerVolume():
-  command = appendAlexa() + "Turn volume down to zero"
+def lower_volume():
+  command = "Alexa, turn volume down to zero"
   speechToText(command)
 
-def midVolume():
-  command = appendAlexa() + "Set the volume to five"
+def mid_volume():
+  command = "Alexa, set the volume to five"
   speechToText(command)
 
-def loop():
-  max = random.randint(5,20)
-  i = 1
-
-  while i < max:
-    flip = random.random()
-    if flip < 0.5:
-      askAnimalAndLocation()
-    else:
-      askAboutThing()
-    i += 1
-    wait = random.randint(20,300)
-    time.sleep(wait)
+def choose_phrase_type():
+  flip = random.random()
+  if flip < 0.5:
+    ask_animal_and_location()
+  else:
+    ask_about_thing()
 
 def run():
-  lowerVolume()
+  lower_volume()
   time.sleep( 4 )
-  loop()
-  midVolume()
+  choose_phrase_type()
+  mid_volume()
+
+run()
