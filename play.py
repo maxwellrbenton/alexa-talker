@@ -1,51 +1,36 @@
-import pyttsx3
 import time
-import random
+import sys
+import importlib
+import app.alexa_controls
+from app.controller import Controller
+import app.commands
+import app.speech_to_text
 
-engine = pyttsx3.init()
+# Alexa commands:
+# 'animal'
+# 'location'
+# 'animal and location'
+# 'define'
+# 'time'
+# 'weather'
 
-# commonWordList = [line.rstrip('\n') for line in open('phrase-content/most-common-words.txt')]
-placeList = [line.rstrip('\n') for line in open('phrase-content/places.txt')]
-animalList = [line.rstrip('\n') for line in open('phrase-content/animals.txt')]
-
-def speech_to_text(text):
-  engine.say(text)
-  engine.runAndWait()
-
-def ask_animal_and_location():
-  animal = animalList[random.randint(1,len(animalList))]
-  place = placeList[random.randint(1,len(placeList))]
-  query = "Alexa, how many " + animal + "s are there in " + place + "?"
-  speechToText(query)
-
-def ask_about_thing():
-  flip = random.random()
-  if flip < 0.5:
-    thing = animalList[random.randint(1,len(animalList))]
-  else:
-    thing = placeList[random.randint(1,len(placeList))]
-  query = "Alexa, tell me about " + thing
-  speechToText(query)
-
-def lower_volume():
-  command = "Alexa, turn volume down to zero"
-  speechToText(command)
-
-def mid_volume():
-  command = "Alexa, set the volume to five"
-  speechToText(command)
-
-def choose_phrase_type():
-  flip = random.random()
-  if flip < 0.5:
-    ask_animal_and_location()
-  else:
-    ask_about_thing()
+def set_volume(volume):
+  return "Alexa, set volume to " + str(volume)
 
 def run():
-  lower_volume()
-  time.sleep( 4 )
-  choose_phrase_type()
-  mid_volume()
+  if len(sys.argv) == 3 and (str(sys.argv[2]) == '--silent' or str(sys.argv[2]) == '-s'):
+    talker = Controller(app.commands, app.speech_to_text, str(sys.argv[1]))
+    app.speech_to_text.speak(set_volume(0))
+    time.sleep(5)
+    talker.start()
+    time.sleep(60)
+    app.speech_to_text.speak(set_volume(4))
+  else:
+    if len(sys.argv) < 2:
+      talker = Controller(app.commands, app.speech_to_text, 'weather')
+      talker.start()
+    else:
+      talker = Controller(app.commands, app.speech_to_text, str(sys.argv[1]))
+      talker.start()
 
 run()
