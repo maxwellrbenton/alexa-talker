@@ -13,11 +13,6 @@ def ask_about_location():
 def ask_about_animal_and_location():
   return "Alexa, how many " + animalList[randint(1,len(animalList))] + "s are there in " + placeList[randint(1,len(placeList))] + "?"
 
-def ask_to_define():
-  file = dopen('words.txt')
-  random_line = file.getline(randint(1, 400000))
-  return "Alexa, define " + random_line
-
 def ask_about_weather():
   return "Alexa, what is the weather like today?"
 

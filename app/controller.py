@@ -10,7 +10,6 @@ class Controller:
             'animal': commands.ask_about_animal,
             'location': commands.ask_about_location,
             'animal and location': commands.ask_about_animal_and_location,
-            'define': commands.ask_to_define,
             'time': commands.ask_about_time,
             'weather': commands.ask_about_weather
             }

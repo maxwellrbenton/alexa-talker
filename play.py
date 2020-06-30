@@ -10,7 +10,6 @@ import app.speech_to_text
 # 'animal'
 # 'location'
 # 'animal and location'
-# 'define'
 # 'time'
 # 'weather'
 
